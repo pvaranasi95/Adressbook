@@ -8,11 +8,13 @@ pipeline {
         }
         stage('maven') {
             steps{
-                withMavenEnv('Maven'){
-                          sh 'mvn clean install'
+                withMaven {
+                    node('Windows1') {
+                          bat 'mvn clean install'
                     }
             }
         }
+    }
     }
 }
 
