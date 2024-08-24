@@ -13,16 +13,16 @@ pipeline {
                 checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/pvaranasi95/DevOps.git']])
             }
         }
-        // stage('Maven Validate') {
-        //     steps{
-        //         bat "mvn validate"
-        //     }
-        // }
-        // stage('Maven Package') {
-        //     steps{
-        //         bat "mvn clean install"
-        //     }
-        // }
+        stage('Maven Validate') {
+            steps{
+                bat "mvn validate"
+            }
+        }
+        stage('Maven Package') {
+            steps{
+                bat "mvn clean install"
+            }
+        }
         stage('Sonar scan') {
             steps{
                 bat '''mvn clean verify sonar:sonar \
