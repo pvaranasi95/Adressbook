@@ -34,7 +34,7 @@ pipeline {
   //       }
         stage('Copy workspace') {
             steps{
-                bat "xcopy C:\ProgramData\Jenkins\.jenkins\workspace\Adressbook@tmp\* C:\ProgramData\Jenkins\workspace /E /I
+                bat "xcopy C:\ProgramData\Jenkins\.jenkins\workspace\Adressbook@tmp\* C:\ProgramData\Jenkins\workspace
             }
         }
     }
