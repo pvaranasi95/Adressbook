@@ -1,7 +1,8 @@
 pipeline {
     agent any
+
     tools {
-        jdk 'JDK11'   // Use JDK17 if needed
+        jdk 'JDK11'   // Change to JDK17 if needed
         maven 'Maven'
     }
 
@@ -28,7 +29,6 @@ pipeline {
             }
         }
 
-        // Uncomment and configure this when SonarQube is ready
         // stage('Sonar scan') {
         //     steps {
         //         bat '''
@@ -41,11 +41,19 @@ pipeline {
         //     }
         // }
 
+        stage('Package workspace') {
+            steps {
+                powershell '''
+                Compress-Archive -Path "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\Adressbook\\*" -DestinationPath "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\Adressbook.zip" -Force
+                '''
+            }
+        }
+
         stage('Copy workspace') {
             steps {
                 bat '''
                 xcopy /E /I /Y ^
-                "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\Adressbook\\*" ^
+                "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\Adressbook.zip" ^
                 "C:\\ProgramData\\Jenkins\\workspace\\Backup\\"
                 '''
             }
