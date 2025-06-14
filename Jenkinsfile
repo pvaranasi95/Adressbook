@@ -32,5 +32,10 @@ pipeline {
   // -Dsonar.token=sqp_0ea1297d3b0f75c5bedfe7f4d047fe28b9177280'''
   //           }
   //       }
+        stage('Copy workspace') {
+            steps{
+                bat "xcopy C:\ProgramData\Jenkins\.jenkins\workspace\Adressbook@tmp\* C:\ProgramData\Jenkins\workspace /E /I
+            }
+        }
     }
 }
