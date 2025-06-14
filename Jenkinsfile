@@ -1,8 +1,5 @@
 pipeline {
-    agent {
-        node { label 'Windows1' }
-    }
-
+    agent any
     tools {
         jdk 'JDK11'   // Use JDK17 if needed
         maven 'Maven'
