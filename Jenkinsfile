@@ -45,7 +45,7 @@ pipeline {
             steps {
                 bat '''
                 xcopy /E /I /Y ^
-                "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\Adressbook@tmp\\*" ^
+                "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\Adressbook\\*" ^
                 "C:\\ProgramData\\Jenkins\\workspace\\Backup\\"
                 '''
             }
