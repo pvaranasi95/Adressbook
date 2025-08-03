@@ -62,6 +62,13 @@ pipeline {
                 """
                 }
             }
+        stage('Docker Push') {
+            steps {
+                powershell """
+                docker push pvaranasi/addressbook:\$env:BUILD_NUMBER
+                """
+            }
+        }
 
     }
 }
