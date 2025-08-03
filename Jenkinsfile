@@ -47,11 +47,11 @@ pipeline {
 
         stage('Package workspace') {
             steps {
-                powershell '''
+                powershell ''''''
                 $source = "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\Adressbook\\target\\addressbook.war"
                 $destination = "${params.WorkDir}"
                 Copy-Item -Path $source -Destination $destination -Force
-                '''
+                ''''''
             }
         }
 
