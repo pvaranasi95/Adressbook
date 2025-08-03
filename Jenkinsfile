@@ -72,5 +72,12 @@ pipeline {
         }
     }
 }
+    stage('Container") {
+          steps{
+            powershell """
+            docker run -d -p 8081:8081  --name pvaranasi/addressbook pvaranasi/adressbook:\$env:BUILD_NUMBER
+            """
+          }
+          }
     }
 }
