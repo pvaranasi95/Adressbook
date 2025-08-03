@@ -5,6 +5,10 @@ pipeline {
         jdk 'JDK11'   // Change to JDK17 if needed
         maven 'Maven'
     }
+    parameters {
+    string(name: 'WorkDir', defaultValue: 'C:\\Users\\pavan\\OneDrive\\Desktop\\DevOps\\Build', description: 'WAR destination path')
+    }
+
 
     stages {
         stage('Git checkout') {
@@ -45,7 +49,7 @@ pipeline {
             steps {
                 powershell '''
                 $source = "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\Adressbook\\target\\addressbook.war"
-                $destination = ${WorkDir}
+                $destination = "${params.WorkDir}"
                 Copy-Item -Path $source -Destination $destination -Force
                 '''
             }
