@@ -45,7 +45,7 @@ pipeline {
             steps {
                 powershell '''
                 $source = "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\Adressbook\\target\\addressbook.war"
-                $destination = "C:\\Users\\pavan\\OneDrive\\Desktop\\DevOps\\Jenkins\\Builds\\"
+                $destination = ${WorkDir}
                 Copy-Item -Path $source -Destination $destination -Force
                 '''
             }
