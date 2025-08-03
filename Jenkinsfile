@@ -79,7 +79,7 @@ pipeline {
     stage('Run Container') {
         steps {
             powershell """
-            docker run -d -p 8081:8081 --name pvaranasi/addressbook pvaranasi/addressbook:\$env:BUILD_NUMBER
+            docker run -d -p 8081:8081 --name addressbook\$env:BUILD_NUMBER pvaranasi/addressbook:\$env:BUILD_NUMBER
             """
          }
     }
