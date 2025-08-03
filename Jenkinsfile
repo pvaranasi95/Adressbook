@@ -44,7 +44,7 @@ pipeline {
         stage('Package workspace') {
             steps {
                 powershell '''
-                Compress-Archive -Path "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\Adressbook\\*" -DestinationPath "C:\\ProgramData\\Jenkins\\Builds\\Adressbook.zip" -Force
+                Copy-Item -Path "C:\ProgramData\Jenkins\.jenkins\workspace\Adressbook\target\addressbook.war" -DestinationPath "C:\Users\pavan\OneDrive\Desktop\DevOps\Jenkins\Builds\\" -Force
                 '''
             }
         }
