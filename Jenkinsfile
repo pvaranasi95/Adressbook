@@ -58,7 +58,7 @@ pipeline {
             steps {
                 powershell """
                 cd "${params.WorkDir}"
-                docker build -t pvaranasi/addressbook:$env:BUILD_NUMBER .
+                docker build -t pvaranasi/addressbook:\$env:BUILD_NUMBER .
                 """
                 }
             }
