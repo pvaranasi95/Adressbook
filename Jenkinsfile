@@ -44,19 +44,10 @@ pipeline {
         stage('Package workspace') {
             steps {
                 powershell '''
-                Compress-Archive -Path "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\Adressbook\\*" -DestinationPath "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\Adressbook.zip" -Force
+                Compress-Archive -Path "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\Adressbook\\*" -DestinationPath "C:\\ProgramData\\Jenkins\\Builds\\Adressbook.zip" -Force
                 '''
             }
         }
 
-        stage('Copy workspace') {
-            steps {
-                bat '''
-                xcopy /E /I /Y ^
-                "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\Adressbook.zip" ^
-                "C:\\ProgramData\\Jenkins\\workspace\\Backup\\"
-                '''
-            }
-        }
     }
 }
