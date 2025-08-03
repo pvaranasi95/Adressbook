@@ -6,7 +6,7 @@ pipeline {
         maven 'Maven'
     }
     parameters {
-    string(name: 'WorkDir', defaultValue: 'C:\\Users\\pavan\\OneDrive\\Desktop\\DevOps\\Build', description: 'WAR destination path')
+    string(name: 'WorkDir', defaultValue: C:\\Users\\pavan\\OneDrive\\Desktop\\DevOps\\Jenkins\\Builds\\, description: 'WAR destination path')
     }
 
 
