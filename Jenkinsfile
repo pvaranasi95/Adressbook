@@ -54,6 +54,14 @@ pipeline {
                 """
             }
         }
+        stage('Docker Image')  {
+            steps {
+                powershell """
+                cd "${params.WorkDir}"
+                docker build -t pvaranasi/addressbook:$env:BUILD_NUMBER .
+                """
+                }
+            }
 
     }
 }
