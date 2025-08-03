@@ -62,15 +62,15 @@ pipeline {
                 """
                 }
             }
-        stage('Docker Push') {
-            steps
-            withCredentials([usernamePassword(credentialsId: 'pvaranasi-dockerhub', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]){
-                withCredentials([usernamePassword(credentialsId: 'pvaranasi-dockerhub', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) 
-                powershell """
-                docker push pvaranasi/addressbook:\$env:BUILD_NUMBER
-                """
-            }
+     stage('Docker Push') {
+        steps {
+            withCredentials([usernamePassword(credentialsId: 'pvaranasi-dockerhub', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+            powershell """
+            docker login -u \$env:DOCKER_USER -p \$env:DOCKER_PASS
+            docker push pvaranasi/addressbook:\$env:BUILD_NUMBER
+            """
         }
-
+    }
+}
     }
 }
