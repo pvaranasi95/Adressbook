@@ -44,7 +44,7 @@ pipeline {
         stage('Package workspace') {
             steps {
                 powershell '''
-                Copy-Item -Path "C:\ProgramData\Jenkins\.jenkins\workspace\Adressbook\target\addressbook.war" -DestinationPath "C:\Users\pavan\OneDrive\Desktop\DevOps\Jenkins\Builds\\" -Force
+                Copy-Item -Path "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\Adressbook\\target\\addressbook.war" -DestinationPath "C:\\Users\\pavan\\OneDrive\\Desktop\\DevOps\\Jenkins\\Builds\\" -Force
                 '''
             }
         }
