@@ -63,8 +63,9 @@ pipeline {
                 }
             }
         stage('Docker Push') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'pvaranasi-dockerhub', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+            steps
+            withCredentials([usernamePassword(credentialsId: 'pvaranasi-dockerhub', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]){
+                withCredentials([usernamePassword(credentialsId: 'pvaranasi-dockerhub', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) 
                 powershell """
                 docker push pvaranasi/addressbook:\$env:BUILD_NUMBER
                 """
