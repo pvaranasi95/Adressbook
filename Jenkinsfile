@@ -51,6 +51,7 @@ pipeline {
                 \$source = "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\Adressbook\\target\\addressbook.war"
                 \$destination = "${params.WorkDir}"
                 Copy-Item -Path \$source -Destination \$destination -Force
+                echo "\$source successfully copied to \$destination"
                 """
             }
         }
@@ -59,6 +60,7 @@ pipeline {
                 powershell """
                 cd "${params.WorkDir}"
                 docker build -t pvaranasi/addressbook:\$env:BUILD_NUMBER .
+                echo "Docker Image Created Succesfully."
                 """
                 }
             }
@@ -68,9 +70,18 @@ pipeline {
             powershell """
             docker login -u \$env:DOCKER_USER -p \$env:DOCKER_PASS
             docker push pvaranasi/addressbook:\$env:BUILD_NUMBER
+            echo "Image successfully pushed to DockerHub"
+            sleep 5
             """
         }
     }
 }
+    stage('Run Container') {
+        steps {
+            powershell """
+            docker run -d -p 8081:8081 --name pvaranasi/addressbook pvaranasi/addressbook:\$env:BUILD_NUMBER
+            """
+         }
+    }
     }
 }
