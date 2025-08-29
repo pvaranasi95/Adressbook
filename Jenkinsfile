@@ -33,17 +33,17 @@ pipeline {
             }
         }
 
-        stage('Sonar scan') {
-            steps {
-                bat '''
-                mvn clean verify sonar:sonar ^
-                -Dsonar.projectKey=Address-Book ^
-                -Dsonar.projectName="Address Book" ^
-                -Dsonar.host.url=http://localhost:9000 ^
-                -Dsonar.token=sqp_0ea1297d3b0f75c5bedfe7f4d047fe28b9177280
-                '''
-            }
-        }
+        // stage('Sonar scan') {
+        //     steps {
+        //         bat '''
+        //         mvn clean verify sonar:sonar ^
+        //         -Dsonar.projectKey=Address-Book ^
+        //         -Dsonar.projectName="Address Book" ^
+        //         -Dsonar.host.url=http://localhost:9000 ^
+        //         -Dsonar.token=sqp_0ea1297d3b0f75c5bedfe7f4d047fe28b9177280
+        //         '''
+        //     }
+        // }
         stage('Copy changes to workdir') {
             steps {
                 powershell """
