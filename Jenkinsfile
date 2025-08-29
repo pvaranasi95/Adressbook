@@ -54,30 +54,30 @@ pipeline {
             }
         }
 
-        stage('Upload to Artifactory') {
-            steps {
-                script {
-                    rtServer (
-                        id: "jfrog-dev",
-                        url: "http://localhost:8082/artifactory",
-                        credentialsId: "Artifactory"
-                        )
-                    rtUpload (
-                        serverId: 'jfrog-dev',
-                        spec: """{
-                            "files": [
-                                {
-                                    "pattern": "${params.WorkDir}/addressbook.war",
-                                    "target": "artifactory/addressbook_CICD/${env.JOB_NAME}/${env.BUILD_NUMBER}/"
-                                }
-                            ]
-                        }""",
-                        buildName: env.JOB_NAME,
-                        buildNumber: env.BUILD_NUMBER,
-                        project: 'Adressbook'
-                    )
-                }
-            }
+stage('Upload to Artifactory') {
+    steps {
+        script {
+            rtServer (
+                id: "jfrog-dev",
+                url: "http://localhost:8082/artifactory",
+                credentialsId: "Artifactory"
+            )
+            rtUpload (
+                serverId: 'jfrog-dev',
+                spec: """{
+                    "files": [
+                        {
+                            "pattern": "${params.WorkDir.replace('\\\\','/')}/addressbook.war",
+                            "target": "addressbook_CICD/${env.JOB_NAME}/${env.BUILD_NUMBER}/"
+                        }
+                    ]
+                }""",
+                buildName: env.JOB_NAME,
+                buildNumber: env.BUILD_NUMBER
+            )
         }
+    }
+}
+
     }
 }
