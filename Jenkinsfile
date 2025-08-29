@@ -68,7 +68,7 @@ pipeline {
                             "files": [
                                 {
                                     "pattern": "${params.WorkDir}/addressbook.war",
-                                    "target": "addressbook/${env.BUILD_NUMBER}/"
+                                    "target": "artifactory/addressbook/${env.BUILD_NUMBER}/"
                                 }
                             ]
                         }""",
