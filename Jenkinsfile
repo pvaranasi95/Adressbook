@@ -44,6 +44,14 @@ pipeline {
                 '''
             }
         }
+        stage('Copy changes to workdir') {
+            steps {
+                powershell '''
+                $source = "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\Adressbook\\target\\addressbook.war"
+                $destination = "${params.WorkDir}"
+                Copy-Item -Path $source -Destination $destination -Force
+                '''
+            }
 
         stage('Upload to Artifactory') {
             steps {
