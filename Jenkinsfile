@@ -53,7 +53,7 @@ pipeline {
                         spec: """{
                             "files": [
                                 {
-                                    "pattern": "target/addressbook.war",
+                                    "pattern": "${env.WORKSPACE}/target/addressbook.war",
                                     "target": "${env.JOB_NAME}/${env.BUILD_NUMBER}/"
                                 }
                             ]
