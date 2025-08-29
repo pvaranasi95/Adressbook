@@ -59,7 +59,7 @@ stage('Upload to Artifactory') {
         script {
             rtServer (
                 id: "jfrog-dev",
-                url: "http://localhost:8082/artifactory",
+                url: "http://localhost:8082",
                 credentialsId: "Artifactory"
             )
             rtUpload (
@@ -67,8 +67,8 @@ stage('Upload to Artifactory') {
                 spec: """{
                     "files": [
                         {
-                            "pattern": "${params.WorkDir}\addressbook.war",
-                            "target": "addressbook_CICD/${env.JOB_NAME}/${env.BUILD_NUMBER}/"
+                            "pattern": "${params.WorkDir.replace('\\\\','/')}/addressbook.war",
+                            "target": "artifactory/addressbook_CICD/${env.JOB_NAME}/${env.BUILD_NUMBER}/"
                         }
                     ]
                 }""",
