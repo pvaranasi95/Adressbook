@@ -67,7 +67,7 @@ stage('Upload to Artifactory') {
                 spec: """{
                     "files": [
                         {
-                            "pattern": "${params.WorkDir.replace('\\\\','/')}/addressbook.war",
+                            "pattern": "${params.WorkDir}\addressbook.war",
                             "target": "addressbook_CICD/${env.JOB_NAME}/${env.BUILD_NUMBER}/"
                         }
                     ]
