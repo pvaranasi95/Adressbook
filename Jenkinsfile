@@ -57,13 +57,18 @@ pipeline {
         stage('Upload to Artifactory') {
             steps {
                 script {
+                    rtServer (
+                        id: "jfrog-dev",
+                        url: "http://localhost:8082/artifactory",
+                        credentialsId: "artifactory-creds"
+                        )
                     rtUpload (
                         serverId: 'jfrog-dev',
                         spec: """{
                             "files": [
                                 {
                                     "pattern": "${params.WorkDir}/addressbook.war",
-                                    "target": "libs-release-local/${env.JOB_NAME}/${env.BUILD_NUMBER}/"
+                                    "target": "addressbook/${env.BUILD_NUMBER}/"
                                 }
                             ]
                         }""",
