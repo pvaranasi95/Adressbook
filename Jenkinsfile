@@ -60,7 +60,7 @@ pipeline {
                     rtServer (
                         id: "jfrog-dev",
                         url: "http://localhost:8082/artifactory",
-                        credentialsId: "artifactory-creds"
+                        credentialsId: "Artifactory"
                         )
                     rtUpload (
                         serverId: 'jfrog-dev',
