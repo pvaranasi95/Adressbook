@@ -60,7 +60,7 @@ pipeline {
                         }""",
                         buildName: env.JOB_NAME,
                         buildNumber: env.BUILD_NUMBER,
-                        project: 'Addressbook'
+                        project: 'Adressbook'
                     )
                 }
             }
