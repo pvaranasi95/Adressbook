@@ -63,7 +63,7 @@ pipeline {
                             "files": [
                                 {
                                     "pattern": "${params.WorkDir}/addressbook.war",
-                                    "target": "addressbook/${env.JOB_NAME}/${env.BUILD_NUMBER}/"
+                                    "target": "libs-release-local/${env.JOB_NAME}/${env.BUILD_NUMBER}/"
                                 }
                             ]
                         }""",
