@@ -45,7 +45,7 @@ pipeline {
 
         stage('Upload to Artifactory') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'artifactory-creds', usernameVariable: 'ART_USER', passwordVariable: 'ART_PASS')]) {
+                withCredentials([usernamePassword(credentialsId: 'Artifactory', usernameVariable: 'ART_USER', passwordVariable: 'ART_PASS')]) {
                     bat """
                     curl -v -u %ART_USER%:%ART_PASS% -T "${params.WorkDir}\\addressbook.war" ^
                     "http://localhost:8082/artifactory/addressbook_CICD/addressbook/%BUILD_NUMBER%/addressbook.war"
