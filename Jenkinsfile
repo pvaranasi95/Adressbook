@@ -84,7 +84,6 @@ pipeline {
             """,
             mimeType: 'text/html',
             to: "${env.Email_Notify}",
-            attachmentsPattern: "*/${env.JOB_NAME}/builds/${env.BUILD_NUMBER}/log"  // console log
         )
     }
 
@@ -99,7 +98,6 @@ pipeline {
             """,
             mimeType: 'text/html',
             to: "${env.Email_Notify}",
-            attachmentsPattern: "*/${env.JOB_NAME}/builds/${env.BUILD_NUMBER}/log"  // console log
         )
     }
 
