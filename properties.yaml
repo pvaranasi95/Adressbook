@@ -1,0 +1,4 @@
+workspace: "C:\\Users\\pavan\\OneDrive\\Desktop\\DevOps\\Jenkins\\Builds"
+artifactory_repo: "addressbook_CICD"
+artifactory_url: "http://localhost:8082"
+artifactory_credentials: "Artifactory"
