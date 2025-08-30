@@ -73,36 +73,38 @@ pipeline {
     }
 
     post {
-        success {
-            emailext(
-                subject: "✅ SUCCESS: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-                body: """
-                <p>Hello Team,</p>
-                <p>The Jenkins job <b>${env.JOB_NAME}</b> has completed <span style='color:green'><b>SUCCESSFULLY</b></span>.</p>
-                <p><b>Build Number:</b> ${env.BUILD_NUMBER}</p>
-                <p><b>Build URL:</b> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
-                """,
-                mimeType: 'text/html',
-                to: "${env.Email_Notify}"
-            )
-        }
-
-        failure {
-            emailext(
-                subject: "❌ FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-                body: """
-                <p>Hello Team,</p>
-                <p>The Jenkins job <b>${env.JOB_NAME}</b> has <span style='color:red'><b>FAILED</b></span>.</p>
-                <p><b>Build Number:</b> ${env.BUILD_NUMBER}</p>
-                <p><b>Build URL:</b> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
-                """,
-                mimeType: 'text/html',
-                to: "${env.Email_Notify}"
-            )
-        }
-
-        always {
-            echo "Email sent with build status"
-        }
+    success {
+        emailext(
+            subject: "✅ SUCCESS: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+            body: """
+            <p>Hello Team,</p>
+            <p>The Jenkins job <b>${env.JOB_NAME}</b> has completed <span style='color:green'><b>SUCCESSFULLY</b></span>.</p>
+            <p><b>Build Number:</b> ${env.BUILD_NUMBER}</p>
+            <p><b>Build URL:</b> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
+            """,
+            mimeType: 'text/html',
+            to: "${env.Email_Notify}",
+            attachmentsPattern: "*/${env.JOB_NAME}/builds/${env.BUILD_NUMBER}/log"  // console log
+        )
     }
+
+    failure {
+        emailext(
+            subject: "❌ FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+            body: """
+            <p>Hello Team,</p>
+            <p>The Jenkins job <b>${env.JOB_NAME}</b> has <span style='color:red'><b>FAILED</b></span>.</p>
+            <p><b>Build Number:</b> ${env.BUILD_NUMBER}</p>
+            <p><b>Build URL:</b> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
+            """,
+            mimeType: 'text/html',
+            to: "${env.Email_Notify}",
+            attachmentsPattern: "*/${env.JOB_NAME}/builds/${env.BUILD_NUMBER}/log"  // console log
+        )
+    }
+
+    always {
+        echo "Email sent with build status + console log"
+    }
+}
 }
