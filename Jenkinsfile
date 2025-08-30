@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        jdk 'JDK11'   // Or 'JDK17' if configured
+        jdk 'JDK11'
         maven 'Maven'
     }
 
@@ -33,18 +33,7 @@ pipeline {
             }
         }
 
-        // stage('Sonar scan') {
-        //     steps {
-        //         bat '''
-        //         mvn clean verify sonar:sonar ^
-        //         -Dsonar.projectKey=Address-Book ^
-        //         -Dsonar.projectName="Address Book" ^
-        //         -Dsonar.host.url=http://localhost:9000 ^
-        //         -Dsonar.token=sqp_0ea1297d3b0f75c5bedfe7f4d047fe28b9177280
-        //         '''
-        //     }
-        // }
-        stage('Copy changes to workdir') {
+        stage('Copy WAR to workdir') {
             steps {
                 powershell """
                 \$source = "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\Adressbook\\target\\addressbook.war"
@@ -54,30 +43,15 @@ pipeline {
             }
         }
 
-stage('Upload to Artifactory') {
-    steps {
-        script {
-            rtServer (
-                id: "jfrog-dev",
-                url: "http://localhost:8082",
-                credentialsId: "Artifactory"
-            )
-            rtUpload (
-                serverId: 'jfrog-dev',
-                spec: """{
-                    "files": [
-                        {
-                            "pattern": "${params.WorkDir.replace('\\\\','/')}/addressbook.war",
-                            "target": "artifactory/addressbook_CICD/${env.JOB_NAME}/${env.BUILD_NUMBER}/"
-                        }
-                    ]
-                }""",
-                buildName: env.JOB_NAME,
-                buildNumber: env.BUILD_NUMBER
-            )
+        stage('Upload to Artifactory') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'artifactory-creds', usernameVariable: 'ART_USER', passwordVariable: 'ART_PASS')]) {
+                    bat """
+                    curl -v -u %ART_USER%:%ART_PASS% -T "${params.WorkDir}\\addressbook.war" ^
+                    "http://localhost:8082/artifactory/addressbook_CICD/addressbook/%BUILD_NUMBER%/addressbook.war"
+                    """
+                }
+            }
         }
-    }
-}
-
     }
 }
