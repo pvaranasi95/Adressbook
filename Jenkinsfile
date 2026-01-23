@@ -10,10 +10,6 @@ pipeline {
         maven 'Maven'
     }
 
-    parameters {
-        string(name: 'WorkDir', defaultValue: 'C:\\Users\\pavan\\OneDrive\\Desktop\\DevOps\\Build', description: 'WAR destination path')
-    }
-
     stages {
         stage('Git checkout') {
             steps {
