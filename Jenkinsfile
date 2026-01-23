@@ -1,3 +1,77 @@
-def SOURCE_REPO   = "https://github.com/pvaranasi95/CICD.git"
-def SOURCE_BRANCH = "main"
-def PROP_FILE     = "Properties/Adressbook1_Properies.yaml"
+
+pipeline {
+    agent any
+  environment {
+    DOCKER_CRED = credentials('DOCKER_CRED')
+}
+
+    tools {
+        jdk 'JDK11'   // Or 'JDK17' if configured
+        maven 'Maven'
+    }
+
+    parameters {
+        string(name: 'WorkDir', defaultValue: 'C:\\Users\\pavan\\OneDrive\\Desktop\\DevOps\\Build', description: 'WAR destination path')
+    }
+
+    stages {
+        stage('Git checkout') {
+            steps {
+                checkout scmGit(
+                    branches: [[name: '*/main']],
+                    extensions: [],
+                    userRemoteConfigs: [[url: 'https://github.com/pvaranasi95/DevOps.git']]
+                )
+            }
+        }
+
+        stage('Maven Validate') {
+            steps {
+                bat "mvn validate"
+            }
+        }
+
+        stage('Maven Package') {
+            steps {
+                bat "mvn clean install"
+            }
+        }
+
+        // stage('Sonar scan') {
+        //     steps {
+        //         bat '''
+        //         mvn clean verify sonar:sonar ^
+        //         -Dsonar.projectKey=Address-Book ^
+        //         -Dsonar.projectName="Address Book" ^
+        //         -Dsonar.host.url=http://localhost:9000 ^
+        //         -Dsonar.token=sqp_0ea1297d3b0f75c5bedfe7f4d047fe28b9177280
+        //         '''
+        //     }
+        // }
+        stage('Copy changes to workdir') {
+            steps {
+                powershell """
+                \$source = "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\Adressbook\\target\\addressbook.war"
+                \$destination = "${params.WorkDir}"
+                Copy-Item -Path \$source -Destination \$destination -Force
+                """
+            }
+        }
+
+stage('Build Docker Image') {
+    steps {
+        script {
+            bat "docker build -t adressbook_%BUILD_NUMBER% ."
+        }
+    }
+}
+      stage('Push Docker Image to Docker Hub'){
+        steps{
+          script{
+            bat "docker push adressbook_%BUILD_NUMBER%"
+          }
+        }
+      }
+      
+    }
+}
