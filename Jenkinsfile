@@ -91,7 +91,7 @@ stage('Build Docker Image') {
         stage('Run Docker Container'){
             steps{
                 script{
-                    bat "docker run -d -p 8089:8080 --name adresbook_%BUILD_NUMBER%" pvaranasi/adressbook:%BUILD_NUMBER%
+                    bat "docker run -d -p 8089:8080 --name adresbook_%BUILD_NUMBER% pvaranasi/adressbook:%BUILD_NUMBER%"
                     bat 'docker ps'
                 }
             }
