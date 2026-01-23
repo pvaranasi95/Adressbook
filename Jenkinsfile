@@ -48,10 +48,11 @@ pipeline {
         stage('Copy changes to Docker folder') {
             steps {
                 powershell """
-                \$source = "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\{JOB_NAME}\\target\\addressbook.war"
+                \$source = "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\Adressbook_Docker\\target\\addressbook.war"
                 \$destination = "D:\\DevOps\\Packages\\"
                 Copy-Item -Path \$source -Destination \$destination -Force
                 """
+                bat "echo "Copy completed, Proceeding to next stage"
             }
         }
 
