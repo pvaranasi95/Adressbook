@@ -62,7 +62,7 @@ pipeline {
 stage('Build Docker Image') {
     steps {
         script {
-            bat "docker build -t adressbook_%BUILD_NUMBER%:latest ."
+            bat "docker build -t pvaranasi/adressbook_%BUILD_NUMBER%:latest ."
         }
     }
 }
