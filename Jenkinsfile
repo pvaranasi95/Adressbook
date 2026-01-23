@@ -45,6 +45,16 @@ pipeline {
         //     }
         // }
 
+        stage('Copy changes to Docker folder') {
+            steps {
+                powershell """
+                \$source = "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\%JOB_NAME%\\target\\addressbook.war"
+                \$destination = "D:\DevOps\Packages"
+                Copy-Item -Path \$source -Destination \$destination -Force
+                """
+            }
+
+
 stage('Build Docker Image') {
     steps {
         script {
