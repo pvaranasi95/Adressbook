@@ -66,6 +66,19 @@ stage('Build Docker Image') {
         }
     }
 }
+                stage('Docker Login') {
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: 'DOCKER_CREDS',
+                    usernameVariable: 'DOCKER_USER',
+                    passwordVariable: 'DOCKER_PASS'
+                )]) {
+                    bat '''
+                    echo %DOCKER_PASS% | docker login -u %DOCKER_USER% --password-stdin
+                    '''
+                }
+            }
+        }
       stage('Push Docker Image to Docker Hub'){
         steps{
           script{
