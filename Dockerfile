@@ -4,6 +4,6 @@ FROM tomcat:9.0-jdk17
 RUN rm -rf /usr/local/tomcat/webapps/*
 
 # Copy WAR into Tomcat
-COPY D:\\DevOps\\Packages\\addressbook.war /usr/local/tomcat/webapps/addressbook.war
+COPY D:\DevOps\Packages\addressbook.war /usr/local/tomcat/webapps/addressbook.war
 
 EXPOSE 8089
