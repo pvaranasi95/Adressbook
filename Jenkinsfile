@@ -52,7 +52,9 @@ pipeline {
                 \$destination = "D:\\DevOps\\Packages\\"
                 Copy-Item -Path \$source -Destination \$destination -Force
                 """
-                bat "echo "Copy completed, Proceeding to next stage"
+                bat '''
+                echo "Copy completed, Proceeding to next stage"
+                '''
             }
         }
 
