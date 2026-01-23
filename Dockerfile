@@ -6,4 +6,4 @@ RUN rm -rf /usr/local/tomcat/webapps/*
 # Copy WAR into Tomcat
 COPY addressbook.war /usr/local/tomcat/webapps/addressbook.war
 
-EXPOSE 8081
+EXPOSE 8089
