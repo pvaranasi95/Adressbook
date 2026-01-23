@@ -62,7 +62,8 @@ pipeline {
 stage('Build Docker Image') {
     steps {
         script {
-            bat "docker build -t pvaranasi/adressbook_%BUILD_NUMBER%:latest ."
+            bat "docker build -t pvaranasi/adressbook:%BUILD_NUMBER% ."
+            bat "docker images"
         }
     }
 }
@@ -82,10 +83,21 @@ stage('Build Docker Image') {
       stage('Push Docker Image to Docker Hub'){
         steps{
           script{
-            bat "docker push pvaranasi/adressbook_%BUILD_NUMBER%"
+            bat "docker push pvaranasi/adressbook:%BUILD_NUMBER%"
           }
         }
       }
+
+        stage('Run Docker Container'){
+            steps{
+                script{
+                    bat'''
+                    docker run -it pvaranasi/adressbook:%BUILD_NUMBER% -p 8089 --name adresbook_%BUILD_NUMBER%
+                    '''
+                    bat 'docker ps'
+                }
+            }
+        }
       
     }
 }
