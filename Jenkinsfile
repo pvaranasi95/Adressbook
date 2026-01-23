@@ -6,7 +6,7 @@ pipeline {
 }
 
     tools {
-        jdk 'JDK11'   // Or 'JDK17' if configured
+        jdk 'JDK17'   // Or 'JDK17' if configured
         maven 'Maven'
     }
 
