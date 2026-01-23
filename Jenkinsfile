@@ -25,11 +25,11 @@ pipeline {
             }
         }
 
-        stage('Maven Validate') {
-            steps {
-                bat "mvn validate"
-            }
-        }
+        // stage('Maven Validate') {
+        //     steps {
+        //         bat "mvn validate"
+        //     }
+        // }
 
         stage('Maven Package') {
             steps {
@@ -48,15 +48,6 @@ pipeline {
         //         '''
         //     }
         // }
-        stage('Copy changes to workdir') {
-            steps {
-                powershell """
-                \$source = "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\Adressbook\\target\\addressbook.war"
-                \$destination = "${params.WorkDir}"
-                Copy-Item -Path \$source -Destination \$destination -Force
-                """
-            }
-        }
 
 stage('Build Docker Image') {
     steps {
