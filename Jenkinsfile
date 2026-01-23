@@ -69,7 +69,7 @@ stage('Build Docker Image') {
                 stage('Docker Login') {
             steps {
                 withCredentials([usernamePassword(
-                    credentialsId: 'DOCKER_CREDS',
+                    credentialsId: 'DOCKER_CRED',
                     usernameVariable: 'DOCKER_USER',
                     passwordVariable: 'DOCKER_PASS'
                 )]) {
