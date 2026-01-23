@@ -49,7 +49,7 @@ pipeline {
             steps {
                 powershell """
                 \$source = "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\Adressbook_Docker\\target\\addressbook.war"
-                \$destination = "D:\\DevOps\\Packages\\"
+                \$destination = "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\Adressbook_Docker\\"
                 Copy-Item -Path \$source -Destination \$destination -Force
                 """
                 bat '''
