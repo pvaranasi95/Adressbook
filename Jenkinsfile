@@ -53,6 +53,7 @@ pipeline {
                 Copy-Item -Path \$source -Destination \$destination -Force
                 """
             }
+        }
 
 
 stage('Build Docker Image') {
