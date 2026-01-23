@@ -82,7 +82,7 @@ stage('Build Docker Image') {
       stage('Push Docker Image to Docker Hub'){
         steps{
           script{
-            bat "docker push adressbook_%BUILD_NUMBER%"
+            bat "docker push pvaranasi/adressbook_%BUILD_NUMBER%"
           }
         }
       }
