@@ -27,11 +27,11 @@ pipeline {
         //     }
         // }
 
-        stage('Maven Package') {
-            steps {
-                bat "mvn clean install"
-            }
-        }
+        // stage('Maven Package') {
+        //     steps {
+        //         bat "mvn clean install"
+        //     }
+        // }
 
         // stage('Sonar scan') {
         //     steps {
@@ -45,54 +45,79 @@ pipeline {
         //     }
         // }
 
-        stage('Copy changes to Docker folder') {
+//         stage('Copy changes to Docker folder') {
+//             steps {
+//                 powershell """
+//                 \$source = "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\Adressbook_Docker\\target\\addressbook.war"
+//                 \$destination = "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\Adressbook_Docker\\"
+//                 Copy-Item -Path \$source -Destination \$destination -Force
+//                 """
+//                 bat '''
+//                 echo "Copy completed, Proceeding to next stage"
+//                 '''
+//             }
+//         }
+
+
+// stage('Build Docker Image') {
+//     steps {
+//         script {
+//             bat "docker build -t pvaranasi/adressbook:%BUILD_NUMBER% ."
+//             bat "docker images"
+//         }
+//     }
+// }
+//                 stage('Docker Login') {
+//             steps {
+//                 withCredentials([usernamePassword(
+//                     credentialsId: 'DOCKER_CRED',
+//                     usernameVariable: 'DOCKER_USER',
+//                     passwordVariable: 'DOCKER_PASS'
+//                 )]) {
+//                     bat '''
+//                     echo %DOCKER_PASS% | docker login -u %DOCKER_USER% --password-stdin
+//                     '''
+//                 }
+//             }
+//         }
+//       stage('Push Docker Image to Docker Hub'){
+//         steps{
+//           script{
+//             bat "docker push pvaranasi/adressbook:%BUILD_NUMBER%"
+//           }
+//         }
+//       }
+
+//         stage('Run Docker Container'){
+//             steps{
+//                 script{
+//                     bat "docker run -d -p 8089:8080 --name adresbook_%BUILD_NUMBER% pvaranasi/adressbook:%BUILD_NUMBER%"
+//                     bat 'docker ps'
+//                 }
+//             }
+//         }
+        stage('upload to ELK') {
             steps {
-                powershell """
-                \$source = "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\Adressbook_Docker\\target\\addressbook.war"
-                \$destination = "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\Adressbook_Docker\\"
-                Copy-Item -Path \$source -Destination \$destination -Force
-                """
-                bat '''
-                echo "Copy completed, Proceeding to next stage"
-                '''
-            }
-        }
+                script {
+                    def jenkinsBuildData = [
+                job_name: env.JOB_NAME,
+                build_number: env.BUILD_NUMBER.toInteger(),
+                status: currentBuild.currentResult,
+                timestamp: new Date().format("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", TimeZone.getTimeZone('UTC')),
+                duration: currentBuild.duration,
+                url: env.BUILD_URL
+            ]
 
+            def jsonBody = groovy.json.JsonOutput.toJson(jenkinsBuildData)
+            def jsonBodyEscaped = jsonBody.replace('"', '\\"')
 
-stage('Build Docker Image') {
-    steps {
-        script {
-            bat "docker build -t pvaranasi/adressbook:%BUILD_NUMBER% ."
-            bat "docker images"
-        }
-    }
-}
-                stage('Docker Login') {
-            steps {
-                withCredentials([usernamePassword(
-                    credentialsId: 'DOCKER_CRED',
-                    usernameVariable: 'DOCKER_USER',
-                    passwordVariable: 'DOCKER_PASS'
-                )]) {
-                    bat '''
-                    echo %DOCKER_PASS% | docker login -u %DOCKER_USER% --password-stdin
-                    '''
-                }
-            }
-        }
-      stage('Push Docker Image to Docker Hub'){
-        steps{
-          script{
-            bat "docker push pvaranasi/adressbook:%BUILD_NUMBER%"
-          }
-        }
-      }
+            echo "Sending build data to Elasticsearch: ${jsonBody}"
 
-        stage('Run Docker Container'){
-            steps{
-                script{
-                    bat "docker run -d -p 8089:8080 --name adresbook_%BUILD_NUMBER% pvaranasi/adressbook:%BUILD_NUMBER%"
-                    bat 'docker ps'
+            bat """
+            curl.exe -X POST "http://localhost:9200/jenkins/_doc" ^
+                 -H "Content-Type: application/json" ^
+                 -d "${jsonBodyEscaped}"
+            """
                 }
             }
         }
