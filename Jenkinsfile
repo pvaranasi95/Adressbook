@@ -96,9 +96,9 @@ pipeline {
 //                 }
 //             }
 //         }
-        stage('upload to ELK') {
-            steps {
-                script {
+        post{
+        always{
+            script {
                     def jenkinsBuildData = [
                 job_name: env.JOB_NAME,
                 build_number: env.BUILD_NUMBER.toInteger(),
@@ -119,8 +119,9 @@ pipeline {
                  -d "${jsonBodyEscaped}"
             """
                 }
-            }
+
         }
-      
     }
+       
+    
 }
